@@ -1,0 +1,522 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Do You Know Me?</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(45deg, #ffccff, #ccffff, #ffcccc, #ffffcc, #ccccff, #ffcc99);
+            background-size: 600% 600%;
+            animation: gradientAnimation 10s ease infinite;
+            color: #fff;
+            font-family: 'Roboto', sans-serif;
+            height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+            position: relative;
+        }
+
+        @keyframes gradientAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        .quiz-container {
+            background-color: rgba(0, 0, 0, 0.7); /* Transparent black background */
+            border-radius: 10px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+            padding: 40px;
+            width: 600px;
+            max-width: 90%;
+            position: relative;
+            color: #fff;
+            z-index: 2;
+        }
+
+        .title {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 2em;
+        }
+
+        .question {
+            margin-bottom: 20px;
+            font-size: 1.2em;
+        }
+
+        .answers {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .answers button {
+    background-color: #007bff; /* Default blue background */
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-weight: bold;
+    padding: 15px;
+    margin: 5px 0;
+    transition: none; /* Remove transition for immediate color change */
+}
+
+.answers button.btn-success {
+    background-color: #28a745; /* Green background for correct answer */
+}
+
+.answers button.btn-danger {
+    background-color: #dc3545; /* Red background for incorrect answer */
+}
+
+
+        .hidden {
+            display: none;
+        }
+
+        #result-box {
+            text-align: center;
+        }
+
+        #retry-btn {
+            background-color: #00cc00;
+            border: none;
+            border-radius: 5px;
+            color: #fff;
+            font-weight: bold;
+            padding: 15px;
+            margin: 5px 0;
+            transition: background-color 0.3s, box-shadow 0.3s;
+        }
+
+        #retry-btn:hover {
+            background-color: #00a300;
+            box-shadow: 0 0 20px rgba(0, 255, 0, 0.5);
+        }
+
+        .animated-shape {
+            position: absolute;
+            border-radius: 50%;
+            opacity: 0.7;
+            animation: float 6s ease-in-out infinite;
+            z-index: 1;
+        }
+
+        .shape1 {
+            width: 100px;
+            height: 100px;
+            background-color: #ff6347;
+            top: 20%;
+            left: 10%;
+        }
+
+        .shape2 {
+            width: 60px;
+            height: 60px;
+            background-color: #4682b4;
+            top: 50%;
+            left: 80%;
+        }
+
+        .shape3 {
+            width: 80px;
+            height: 80px;
+            background-color: #32cd32;
+            top: 70%;
+            left: 30%;
+        }
+
+        .shape4 {
+            width: 120px;
+            height: 120px;
+            background-color: #8a2be2;
+            top: 40%;
+            left: 60%;
+        }
+
+        .shape5 {
+            width: 150px;
+            height: 150px;
+            background-color: #ff1493;
+            top: 10%;
+            left: 70%;
+            border-radius: 50% 50% 0 0;
+        }
+
+        .shape6 {
+            width: 50px;
+            height: 50px;
+            background-color: #00ff7f;
+            top: 60%;
+            left: 10%;
+            border-radius: 0 50% 50% 50%;
+        }
+
+        .shape7 {
+            width: 100px;
+            height: 100px;
+            background-color: #1e90ff;
+            top: 30%;
+            left: 80%;
+            border-radius: 50%;
+        }
+
+        /* Additional Shapes */
+
+        .shape8 {
+            width: 90px;
+            height: 90px;
+            background-color: #ff4500;
+            top: 80%;
+            left: 20%;
+            animation-delay: 1s;
+        }
+
+        .shape9 {
+            width: 70px;
+            height: 70px;
+            background-color: #00ced1;
+            top: 40%;
+            left: 50%;
+            animation-delay: 2s;
+        }
+
+        .shape10 {
+            width: 110px;
+            height: 110px;
+            background-color: #ffa500;
+            top: 60%;
+            left: 90%;
+            animation-delay: 3s;
+        }
+
+        .shape11 {
+            width: 120px;
+            height: 120px;
+            background-color: #6a5acd;
+            top: 50%;
+            left: 30%;
+            animation-delay: 1.5s;
+        }
+
+        .shape12 {
+            width: 80px;
+            height: 80px;
+            background-color: #ff69b4;
+            top: 10%;
+            left: 60%;
+            animation-delay: 2.5s;
+        }
+
+        .shape13 {
+            width: 100px;
+            height: 100px;
+            background-color: #7fff00;
+            top: 70%;
+            left: 40%;
+            animation-delay: 3.5s;
+        }
+
+        .shape14 {
+            width: 60px;
+            height: 60px;
+            background-color: #20b2aa;
+            top: 20%;
+            left: 70%;
+            animation-delay: 4s;
+        }
+
+        .shape15 {
+            width: 130px;
+            height: 130px;
+            background-color: #8b008b;
+            top: 30%;
+            left: 10%;
+            animation-delay: 1.7s;
+        }
+
+        .shape16 {
+            width: 70px;
+            height: 70px;
+            background-color: #bdb76b;
+            top: 90%;
+            left: 80%;
+            animation-delay: 2.3s;
+        }
+
+        .shape17 {
+            width: 100px;
+            height: 100px;
+            background-color: #a0522d;
+            top: 5%;
+            left: 40%;
+            animation-delay: 3.9s;
+        }
+
+        .shape18 {
+            width: 150px;
+            height: 150px;
+            background-color: #468499;
+            top: 55%;
+            left: 20%;
+            animation-delay: 4.5s;
+        }
+
+        .shape19 {
+            width: 90px;
+            height: 90px;
+            background-color: #3cb371;
+            top: 25%;
+            left: 60%;
+            animation-delay: 2.8s;
+        }
+
+        .shape20 {
+            width: 110px;
+            height: 110px;
+            background-color: #dda0dd;
+            top: 75%;
+            left: 90%;
+            animation-delay: 1.2s;
+        }
+
+        .shape21 {
+            width: 120px;
+            height: 120px;
+            background-color: #00bfff;
+            top: 15%;
+            left: 30%;
+            animation-delay: 3.2s;
+        }
+
+        .shape22 {
+            width: 80px;
+            height: 80px;
+            background-color: #cd853f;
+            top: 65%;
+            left: 50%;
+            animation-delay: 4.2s;
+        }
+
+        .shape23 {
+            width: 100px;
+            height: 100px;
+            background-color: #ffb6c1;
+            top: 35%;
+            left: 70%;
+            animation-delay: 2.1s;
+        }
+
+        .shape24 {
+            width: 60px;
+            height: 60px;
+            background-color: #7fffd4;
+            top: 85%;
+            left: 10%;
+            animation-delay: 1.8s;
+        }
+
+        .shape25 {
+            width: 130px;
+            height: 130px;
+            background-color: #778899;
+            top: 45%;
+            left: 80%;
+            animation-delay: 3.6s;
+        }
+
+        .shape26 {
+            width: 70px;
+            height: 70px;
+            background-color: #da70d6;
+            top: 95%;
+            left: 40%;
+            animation-delay: 4.3s;
+        }
+
+        .shape27 {
+            width: 100px;
+            height: 100px;
+            background-color: #f08080;
+            top: 25%;
+            left: 20%;
+            animation-delay: 1.5s;
+        }
+
+        .shape28 {
+            width: 150px;
+            height: 150px;
+            background-color: #6b8e23;
+            top: 65%;
+            left: 90%;
+            animation-delay: 3.8s;
+        }
+
+        .shape29 {
+            width: 90px;
+            height: 90px;
+            background-color: #483d8b;
+            top: 35%;
+            left: 50%;
+            animation-delay: 2.2s;
+        }
+
+        .shape30 {
+            width: 110px;
+            height: 110px;
+            background-color: #20b2aa;
+            top: 75%;
+            left: 80%;
+            animation-delay: 4.1s;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
+</head>
+<body>
+    <div class="animated-shape shape1"></div>
+    <div class="animated-shape shape2"></div>
+    <div class="animated-shape shape3"></div>
+    <div class="animated-shape shape4"></div>
+    <div class="animated-shape shape5"></div>
+    <div class="animated-shape shape6"></div>
+    <div class="animated-shape shape7"></div>
+    <div class="animated-shape shape8"></div>
+    <div class="animated-shape shape9"></div>
+    <div class="animated-shape shape10"></div>
+    <div class="animated-shape shape11"></div>
+    <div class="animated-shape shape12"></div>
+    <div class="animated-shape shape13"></div>
+    <div class="animated-shape shape14"></div>
+    <div class="animated-shape shape15"></div>
+    <div class="animated-shape shape16"></div>
+    <div class="animated-shape shape17"></div>
+    <div class="animated-shape shape18"></div>
+    <div class="animated-shape shape19"></div>
+    <div class="animated-shape shape20"></div>
+    <div class="animated-shape shape21"></div>
+    <div class="animated-shape shape22"></div>
+    <div class="animated-shape shape23"></div>
+    <div class="animated-shape shape24"></div>
+    <div class="animated-shape shape25"></div>
+    <div class="animated-shape shape26"></div>
+    <div class="animated-shape shape27"></div>
+    <div class="animated-shape shape28"></div>
+    <div class="animated-shape shape29"></div>
+    <div class="animated-shape shape30"></div>
+    
+    <div class="container quiz-container">
+        <h1 class="title">Do You Know Me?</h1>
+        <div id="quiz-box">
+            <!-- Quiz will be injected here by JavaScript -->
+        </div>
+        <div id="result-box" class="hidden">
+            <h2>Your Score: <span id="score"></span>/20</h2>
+            <button id="retry-btn" class="btn btn-primary">Retry</button>
+        </div>
+    </div>
+    <!-- Include Bootstrap JS -->
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script>
+        const questions = [
+            { question: "What's my favorite color?", answers: ["Red", "Blue", "Black", "Yellow"], correct: 2},
+            { question: "When is my BirthDay?", answers: ["Dec,14,2004", "Dec,31,2004", "Dec,3,2004", "Dec,19,2004"], correct: 1 },
+            { question: "Where do I live in PAMPANGA?", answers: ["Arayat", "Mabalacat", "Magalang", "San Fernando"], correct: 2 },
+            { question: "What's my favorite food?", answers: ["Pizza", "Sushi", "Pasta", "Burgers"], correct: 2 },
+            { question: "What's my hobby?", answers: ["Reading", "Gaming", "Cooking", "Traveling"], correct: 2 },
+            { question: "What is my dream job?", answers: ["Web DEV", "IT Prof", "Tambay", "HouseHusband"], correct: 3 },
+            { question: "What's my favorite sport?", answers: ["Football", "Basketball", "Tennis", "Swimming"], correct: 1 },
+            { question: "What kind of music do I like?", answers: ["Pop", "Rock", "Jazz", "Classical"], correct: 2},
+            { question: "What's my favorite Movie?", answers: ["Paddington", "Harry Potter", "Transformer", "Moby Dick"], correct: 2 },
+            { question: "What's my favorite season?", answers: ["Spring", "Summer", "Fall", "Winter"], correct: 1 },
+            { question: "What's my pet's name?", answers: ["Max", "Bella", "Yoggie", "Luna"], correct: 2},
+            { question: "What's my favorite ice cream flavor?", answers: ["Vanilla", "Chocolate", "Strawberry", "Mint"], correct: 0 },
+            { question: "What's my zodiac sign?", answers: ["Aries", "Taurus", "Capricorn", "Cancer"], correct: 2 },
+            { question: "What's my favorite drink?", answers: ["Coffee", "Tea", "Juice", "Water"], correct: 3 },
+            { question: "What's my favorite holiday?", answers: ["Christmas", "Halloween", "Thanksgiving", "New Year's Eve"], correct: 3 },
+            { question: "What's my favorite animal?", answers: ["Dog", "Cat", "Bird", "Fish"], correct: 1 },
+            { question: "What's my favorite Snack?", answers: ["Chocolate", "Gummy Bears", "Potato Chips", "Mints"], correct: 2 },
+            { question: "What's my favorite dessert?", answers: ["Cake", "Pie", "Cookies", "Ice Cream"], correct: 3 },
+            { question: "What's my favorite TV show?", answers: ["Friends", "Breaking Bad", "Game of Thrones", "Stranger Things"], correct: 2 },
+            { question: "What's my favorite video game?", answers: ["Minecraft", "Fortnite", "Call Of Duty Moblie", "Mobile Legends"], correct: 2 }
+        ];
+
+        let currentQuestionIndex = 0;
+        let score = 0;
+
+        document.addEventListener('DOMContentLoaded', function () {
+            displayQuestion();
+
+            document.getElementById('retry-btn').addEventListener('click', function () {
+                currentQuestionIndex = 0;
+                score = 0;
+                document.getElementById('result-box').classList.add('hidden');
+                document.getElementById('quiz-box').classList.remove('hidden');
+                displayQuestion();
+            });
+        });
+
+        function displayQuestion() {
+            if (currentQuestionIndex >= questions.length) {
+                showResult();
+                return;
+            }
+
+            const questionData = questions[currentQuestionIndex];
+            const quizBox = document.getElementById('quiz-box');
+            quizBox.innerHTML = `
+                <div class="question">Question ${currentQuestionIndex + 1}: ${questionData.question}</div>
+                <div class="answers">
+                    ${questionData.answers.map((answer, index) => `
+                        <button class="btn btn-primary" onclick="checkAnswer(${index})">${answer}</button>
+                    `).join('')}
+                </div>
+            `;
+        }
+
+        function checkAnswer(selectedIndex) {
+    const correctIndex = questions[currentQuestionIndex].correct;
+    const answers = questions[currentQuestionIndex].answers;
+    const quizBox = document.getElementById('quiz-box');
+    const selectedButton = quizBox.querySelectorAll('.answers button')[selectedIndex];
+    const correctButton = quizBox.querySelectorAll('.answers button')[correctIndex];
+
+    // Disable all buttons after answer selection
+    quizBox.querySelectorAll('.answers button').forEach(button => {
+        button.disabled = true;
+    });
+
+    if (selectedIndex === correctIndex) {
+        score++;
+        selectedButton.classList.add('btn-success');
+    } else {
+        selectedButton.classList.add('btn-danger');
+    }
+
+    correctButton.classList.add('btn-info');
+
+    // Display the correct answer below the selected answer
+    quizBox.innerHTML += `<div class="correct-answer mt-2">Correct Answer: ${answers[correctIndex]}</div>`;
+
+    currentQuestionIndex++;
+    setTimeout(displayQuestion, 2000); // Delay for 2 seconds before displaying the next question
+}
+
+
+        function showResult() {
+            document.getElementById('quiz-box').classList.add('hidden');
+            document.getElementById('result-box').classList.remove('hidden');
+            document.getElementById('score').innerText = score;
+        }
+    </script> 
+</body>
+</html>
